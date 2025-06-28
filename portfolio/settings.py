@@ -58,8 +58,8 @@ MIDDLEWARE = [
 
 # add by me  this is domains of front and backend
 CORS_ALLOWED_ORIGINS = [
-    "http://localhost:3000",
-    "http://127.0.0.1:8000",
+    "https://devsalmankhann.netlify.app",
+    "https://portfolio-nine-rosy-57.vercel.app/",
 ]
 
 ROOT_URLCONF = 'portfolio.urls'
