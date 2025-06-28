@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-9m-9sj5&vm$0(#qhota!n#=%puzf0^%+7e*sas4t1k*nd)tjgc
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = [".vercel.app"]
+ALLOWED_HOSTS = [".vercel.app", "localhost", "127.0.0.1"]
 
 
 # Application definition
@@ -44,7 +44,7 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
-
+    'corsheaders.middleware.CorsMiddleware',  
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -52,15 +52,15 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'corsheaders.middleware.CorsMiddleware', # manual
-    'django.middleware.common.CommonMiddleware', # manual this 2 are coresheaders
 ]
 
 # add by me  this is domains of front and backend
 CORS_ALLOWED_ORIGINS = [
+    "http://localhost:3000",
+    "http://127.0.0.1:8000",
     "https://devsalmankhann.netlify.app",
-    "https://portfolio-nine-rosy-57.vercel.app/",
 ]
+
 
 ROOT_URLCONF = 'portfolio.urls'
 
