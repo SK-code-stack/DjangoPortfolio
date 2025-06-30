@@ -109,7 +109,7 @@ CORS_ALLOWED_ORIGINS = [
 # CSRF Trusted Origins (needed for POST requests from frontend)
 CSRF_TRUSTED_ORIGINS = [
     "https://djangoportfolio-production-6822.up.railway.app",
-    "https://devsalmankhann.netlify.app",
+    "https://devsalmankhan.netlify.app",
 ]
 
 # Default primary key field type
