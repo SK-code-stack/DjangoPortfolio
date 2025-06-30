@@ -8,7 +8,13 @@ SECRET_KEY = os.environ.get('SECRET_KEY', 'insecure-dev-key')
 DEBUG = os.environ.get('DEBUG', 'True') == 'True'
 
 # Allowed Hosts
-ALLOWED_HOSTS = os.environ.get("ALLOWED_HOSTS", "localhost 127.0.0.1 .vercel.app .railway.app").split()
+ALLOWED_HOSTS = [
+    "localhost",
+    "127.0.0.1",
+    ".vercel.app",
+    ".railway.app",
+    "djangoportfolio-production-6822.up.railway.app",
+]
 
 # Installed Apps
 INSTALLED_APPS = [
