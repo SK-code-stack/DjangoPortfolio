@@ -1,6 +1,5 @@
 import os
 from pathlib import Path
-import dj_database_url  # Add to requirements.txt
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -9,7 +8,13 @@ SECRET_KEY = os.environ.get('SECRET_KEY', 'insecure-dev-key')
 DEBUG = os.environ.get('DEBUG', 'True') == 'True'
 
 # Allowed Hosts
-ALLOWED_HOSTS = os.environ.get("ALLOWED_HOSTS", "localhost 127.0.0.1 .vercel.app .railway.app").split()
+ALLOWED_HOSTS = [
+    "localhost",
+    "127.0.0.1",
+    ".vercel.app",
+    ".railway.app",
+    "djangoportfolio-production-6822.up.railway.app",
+]
 
 # Installed Apps
 INSTALLED_APPS = [
@@ -56,7 +61,7 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'portfolio.wsgi.application'
 
-# Database (Use Railway DB if env vars exist, else use SQLite locally)
+# Database (Railway PostgreSQL or fallback to SQLite)
 if os.getenv('PGHOST'):
     DATABASES = {
         'default': {
@@ -99,11 +104,19 @@ STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
 
-# CORS
+# CORS (Cross-Origin Resource Sharing)
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000",
     "http://127.0.0.1:8000",
-    "https://devsalmankhann.netlify.app",
+    "https://djangoportfolio-production-6822.up.railway.app",
+    "https://devsalmankhan.netlify.app",
 ]
 
+# CSRF Trusted Origins (needed for POST requests from frontend)
+CSRF_TRUSTED_ORIGINS = [
+    "https://djangoportfolio-production-6822.up.railway.app",
+    "https://devsalmankhan.netlify.app",
+]
+
+# Default primary key field type
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
