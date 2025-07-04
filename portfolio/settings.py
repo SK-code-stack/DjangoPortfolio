@@ -7,12 +7,12 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.environ.get('SECRET_KEY', 'insecure-dev-key')
 DEBUG = os.environ.get('DEBUG', 'True') == 'True'
 
-# Allowed Hosts
+# Allowed Hosts - include your backend domain here
 ALLOWED_HOSTS = [
     "localhost",
     "127.0.0.1",
-    ".railway.app",
-    "djangoportfolio-production-6822.up.railway.app",
+    ".railway.app",  # wildcard for subdomains of Railway
+    "djangoportfolio-production-6822.up.railway.app",  # your deployed backend
 ]
 
 # Installed Apps
@@ -28,9 +28,9 @@ INSTALLED_APPS = [
     'corsheaders',
 ]
 
-# Middleware
+# Middleware - CORS should come early
 MIDDLEWARE = [
-    'corsheaders.middleware.CorsMiddleware',
+    'corsheaders.middleware.CorsMiddleware',  # MUST be before CommonMiddleware
     'django.middleware.security.SecurityMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -60,7 +60,7 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'portfolio.wsgi.application'
 
-# Database (Railway PostgreSQL or fallback to SQLite)
+# Database (PostgreSQL if Railway env vars are set, otherwise SQLite)
 if os.getenv('PGHOST'):
     DATABASES = {
         'default': {
@@ -94,7 +94,7 @@ TIME_ZONE = 'UTC'
 USE_I18N = True
 USE_TZ = True
 
-# Static files
+# Static files (CSS, JavaScript, Images)
 STATIC_URL = '/static/'
 STATIC_ROOT = BASE_DIR / 'static'
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
@@ -103,16 +103,14 @@ STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
 
-# CORS (Cross-Origin Resource Sharing)
+# ✅ CORS: Allow your frontend (Netlify) to access the API
 CORS_ALLOWED_ORIGINS = [
-    "https://mskcode.netlify.app",
-    # "https://djangoportfolio-production-6822.up.railway.app",
+    "https://mskcode.netlify.app",  # ✅ your deployed frontend domain
 ]
 
-# CSRF Trusted Origins (needed for POST requests from frontend)
+# ✅ CSRF: Trust the frontend for POST requests (login, forms, etc.)
 CSRF_TRUSTED_ORIGINS = [
-    # "https://djangoportfolio-production-6822.up.railway.app",
-    "https://mskcode.netlify.app",
+    "https://mskcode.netlify.app",  # ✅ must match frontend domain
 ]
 
 # Default primary key field type
