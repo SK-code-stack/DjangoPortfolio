@@ -1,5 +1,6 @@
 import os
 from pathlib import Path
+from corsheaders.defaults import default_headers  # ✅ Required for CORS headers
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -7,15 +8,15 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.environ.get('SECRET_KEY', 'insecure-dev-key')
 DEBUG = os.environ.get('DEBUG', 'True') == 'True'
 
-# Allowed hosts
+# Allowed Hosts
 ALLOWED_HOSTS = [
     "localhost",
     "127.0.0.1",
-    ".railway.app",  # wildcard for Railway subdomains
-    "djangoportfolio-production-6822.up.railway.app",  # your backend domain
+    ".railway.app",
+    "djangoportfolio-production-6822.up.railway.app",
 ]
 
-# Installed apps
+# Installed Apps
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -25,12 +26,12 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'home',
     'rest_framework',
-    'corsheaders',
+    'corsheaders',  # ✅ CORS support
 ]
 
-# Middleware (CORS must be at the top)
+# Middleware (corsheaders must be first)
 MIDDLEWARE = [
-    'corsheaders.middleware.CorsMiddleware',  # ✅ before CommonMiddleware
+    'corsheaders.middleware.CorsMiddleware',  # ✅ MUST BE FIRST
     'django.middleware.security.SecurityMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -41,7 +42,6 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-# URLs & WSGI
 ROOT_URLCONF = 'portfolio.urls'
 
 TEMPLATES = [
@@ -61,15 +61,27 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'portfolio.wsgi.application'
 
-# ✅ SQLite only
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+# Database (use Railway PostgreSQL if env vars present)
+if os.getenv('PGHOST'):
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql',
+            'NAME': os.environ.get('PGDATABASE'),
+            'USER': os.environ.get('PGUSER'),
+            'PASSWORD': os.environ.get('PGPASSWORD'),
+            'HOST': os.environ.get('PGHOST'),
+            'PORT': os.environ.get('PGPORT', '5432'),
+        }
     }
-}
+else:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': BASE_DIR / 'db.sqlite3',
+        }
+    }
 
-# Password validators
+# Password Validation
 AUTH_PASSWORD_VALIDATORS = [
     {'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator'},
     {'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator'},
@@ -77,13 +89,13 @@ AUTH_PASSWORD_VALIDATORS = [
     {'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator'},
 ]
 
-# Localization
+# Internationalization
 LANGUAGE_CODE = 'en-us'
 TIME_ZONE = 'UTC'
 USE_I18N = True
 USE_TZ = True
 
-# Static files
+# Static files (CSS, JavaScript, Images)
 STATIC_URL = '/static/'
 STATIC_ROOT = BASE_DIR / 'static'
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
@@ -92,15 +104,20 @@ STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
 
-# ✅ CORS
+# CORS Settings
 CORS_ALLOWED_ORIGINS = [
-    "https://mskcode.netlify.app",  # ✅ your deployed frontend
+    "https://mskcode.netlify.app",  # ✅ React frontend deployed on Netlify
 ]
 
-# ✅ CSRF
 CSRF_TRUSTED_ORIGINS = [
-    "https://mskcode.netlify.app",  # ✅ trust for form & POST requests
+    "https://mskcode.netlify.app",  # ✅ Required for safe POST requests
 ]
 
-# Auto field
+CORS_ALLOW_HEADERS = list(default_headers) + [
+    'content-disposition',
+]
+
+CORS_ALLOW_CREDENTIALS = True  # ✅ If you're using sessions or cookies
+
+# Default primary key field type
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
