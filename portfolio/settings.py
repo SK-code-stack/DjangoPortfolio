@@ -7,15 +7,15 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.environ.get('SECRET_KEY', 'insecure-dev-key')
 DEBUG = os.environ.get('DEBUG', 'True') == 'True'
 
-# Allowed Hosts - include your backend domain here
+# Allowed hosts
 ALLOWED_HOSTS = [
     "localhost",
     "127.0.0.1",
-    ".railway.app",  # wildcard for subdomains of Railway
-    "djangoportfolio-production-6822.up.railway.app",  # your deployed backend
+    ".railway.app",  # wildcard for Railway subdomains
+    "djangoportfolio-production-6822.up.railway.app",  # your backend domain
 ]
 
-# Installed Apps
+# Installed apps
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -28,9 +28,9 @@ INSTALLED_APPS = [
     'corsheaders',
 ]
 
-# Middleware - CORS should come early
+# Middleware (CORS must be at the top)
 MIDDLEWARE = [
-    'corsheaders.middleware.CorsMiddleware',  # MUST be before CommonMiddleware
+    'corsheaders.middleware.CorsMiddleware',  # ✅ before CommonMiddleware
     'django.middleware.security.SecurityMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -41,6 +41,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
+# URLs & WSGI
 ROOT_URLCONF = 'portfolio.urls'
 
 TEMPLATES = [
@@ -60,27 +61,15 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'portfolio.wsgi.application'
 
-# Database (PostgreSQL if Railway env vars are set, otherwise SQLite)
-if os.getenv('PGHOST'):
-    DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.postgresql',
-            'NAME': os.environ.get('PGDATABASE'),
-            'USER': os.environ.get('PGUSER'),
-            'PASSWORD': os.environ.get('PGPASSWORD'),
-            'HOST': os.environ.get('PGHOST'),
-            'PORT': os.environ.get('PGPORT', '5432'),
-        }
+# ✅ SQLite only
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
     }
-else:
-    DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.sqlite3',
-            'NAME': BASE_DIR / 'db.sqlite3',
-        }
-    }
+}
 
-# Password Validation
+# Password validators
 AUTH_PASSWORD_VALIDATORS = [
     {'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator'},
     {'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator'},
@@ -88,13 +77,13 @@ AUTH_PASSWORD_VALIDATORS = [
     {'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator'},
 ]
 
-# Internationalization
+# Localization
 LANGUAGE_CODE = 'en-us'
 TIME_ZONE = 'UTC'
 USE_I18N = True
 USE_TZ = True
 
-# Static files (CSS, JavaScript, Images)
+# Static files
 STATIC_URL = '/static/'
 STATIC_ROOT = BASE_DIR / 'static'
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
@@ -103,15 +92,15 @@ STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
 
-# ✅ CORS: Allow your frontend (Netlify) to access the API
+# ✅ CORS
 CORS_ALLOWED_ORIGINS = [
-    "https://mskcode.netlify.app",  # ✅ your deployed frontend domain
+    "https://mskcode.netlify.app",  # ✅ your deployed frontend
 ]
 
-# ✅ CSRF: Trust the frontend for POST requests (login, forms, etc.)
+# ✅ CSRF
 CSRF_TRUSTED_ORIGINS = [
-    "https://mskcode.netlify.app",  # ✅ must match frontend domain
+    "https://mskcode.netlify.app",  # ✅ trust for form & POST requests
 ]
 
-# Default primary key field type
+# Auto field
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
