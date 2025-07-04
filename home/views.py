@@ -10,8 +10,6 @@ from .serializers import SkillSerializer, HomeProjectSerializer, IntroSerializer
 from django.contrib.auth import get_user_model
 User = get_user_model()
 
-if not User.objects.filter(username="salman-khan").exists():
-    User.objects.create_superuser("salman-khan", "salmankhan.cw@gmail.com", "p2g00971")
 
 
 
