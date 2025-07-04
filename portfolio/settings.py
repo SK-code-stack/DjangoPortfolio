@@ -11,7 +11,6 @@ DEBUG = os.environ.get('DEBUG', 'True') == 'True'
 ALLOWED_HOSTS = [
     "localhost",
     "127.0.0.1",
-    ".vercel.app",
     ".railway.app",
     "djangoportfolio-production-6822.up.railway.app",
 ]
@@ -106,10 +105,8 @@ MEDIA_ROOT = BASE_DIR / 'media'
 
 # CORS (Cross-Origin Resource Sharing)
 CORS_ALLOWED_ORIGINS = [
-    "http://localhost:3000",
-    "http://127.0.0.1:8000",
+    "https://mskcode.netlify.app",
     "https://djangoportfolio-production-6822.up.railway.app",
-    "https://devsalmankhan.netlify.app",
 ]
 
 # CSRF Trusted Origins (needed for POST requests from frontend)
