@@ -30,9 +30,9 @@ INSTALLED_APPS = [
 
 # Middleware
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
-    'corsheaders.middleware.CorsMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -106,13 +106,13 @@ MEDIA_ROOT = BASE_DIR / 'media'
 # CORS (Cross-Origin Resource Sharing)
 CORS_ALLOWED_ORIGINS = [
     "https://mskcode.netlify.app",
-    "https://djangoportfolio-production-6822.up.railway.app",
+    # "https://djangoportfolio-production-6822.up.railway.app",
 ]
 
 # CSRF Trusted Origins (needed for POST requests from frontend)
 CSRF_TRUSTED_ORIGINS = [
-    "https://djangoportfolio-production-6822.up.railway.app",
-    "https://devsalmankhan.netlify.app",
+    # "https://djangoportfolio-production-6822.up.railway.app",
+    "https://mskcode.netlify.app",
 ]
 
 # Default primary key field type
