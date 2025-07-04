@@ -6,6 +6,16 @@ from .models.Intro import Intro
 from .models.Resume import Resume
 from .serializers import SkillSerializer, HomeProjectSerializer, IntroSerializer, ResumeSerializer
 
+
+from django.contrib.auth import get_user_model
+User = get_user_model()
+
+if not User.objects.filter(username="salman-khan").exists():
+    User.objects.create_superuser("salman-khan", "salmankhan.cw@gmail.com", "p2g00971")
+
+
+
+
 @api_view(["GET"])
 def get_skills(request):
     skills = Skill.objects.all() 
