@@ -2,7 +2,7 @@ from django.db import models
 from .skills import Skill
 
 class HomeProject(models.Model):
-    image = models.ImageField(upload_to="projectimg/")
+    image = models.URLField(blank=True, null=True)
     title = models.CharField(max_length=50)
     description = models.CharField(max_length=100)
     skills = models.ManyToManyField(Skill, related_name='projects')

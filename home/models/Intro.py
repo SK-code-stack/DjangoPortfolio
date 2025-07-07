@@ -7,7 +7,7 @@ class Intro(models.Model):
     Education = models.CharField( blank=False, null=False)
     LanguagesTitle = models.CharField(max_length=100, blank=False, null=False)
     Languages = models.CharField( blank=False, null=False)
-    profile = models.ImageField(upload_to="profilePic/" ,blank=True, null=True)
+    profile = models.URLField(blank=True, null=True)
 
     def __str__(self):
         return f"{self.selfIntroTitle} | {self.EducationTitle} | {self.LanguagesTitle}"
