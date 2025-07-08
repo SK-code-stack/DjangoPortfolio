@@ -115,6 +115,7 @@ CORS_ALLOWED_ORIGINS = [
 CSRF_TRUSTED_ORIGINS = [
     "https://mskcode.netlify.app",  # ✅ Required for safe POST requests
     "http://localhost:3000",
+    "https://djangoportfolio-production-6822.up.railway.app/",
 ]
 
 CORS_ALLOW_HEADERS = list(default_headers) + [
